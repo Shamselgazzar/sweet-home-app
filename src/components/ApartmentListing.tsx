@@ -1,8 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Moon, Sun, RefreshCcw, Home } from 'lucide-react'
-import { useTheme } from 'next-themes'
 
 import { Button } from '@/components/ui/button'
 import { ApartmentCard } from './ApartmentCard'
@@ -10,62 +9,51 @@ import { ApartmentDetails } from './ApartmentDetails'
 import { SearchFilters } from './SearchFilters'
 import { Pagination } from './Pagination'
 import { AddApartmentForm } from './AddApartmentForm'
-import { Apartment } from '../types/apartment'
-import { testApartments } from '../data/testApartments'
+import { Apartment } from '../types/Apartment'
+import { fetchApartments } from '../lib/api'
+import { ApartmentsResponse } from '../types/ApartmentsResponse'
 
 export default function ApartmentListing() {
-  const { theme, setTheme } = useTheme()
-  const [apartments, setApartments] = useState(testApartments)
+  const [theme, setTheme] = useState('dark')
   const [selectedApartment, setSelectedApartment] = useState<Apartment | null>(null)
-  const [searchType, setSearchType] = useState('name')
-  const [searchQuery, setSearchQuery] = useState('')
-  const [priceRange, setPriceRange] = useState([0, 1000000])
-  const [bedroomFilter, setBedroomFilter] = useState(0)
+
+
+  const [apartments, setApartments] = useState<Apartment[]>([])
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage] = useState(6)
+  const [totalPages, setTotalPages] = useState(0)
+  const [totalApartments, setTotalApartments] = useState(0)
+  // const [loading, setLoading] = useState(false)
+  // Fetch apartments on component mount
 
-  const handleSearch = () => {
-    // const filtered = testApartments.filter(apt => 
-    //   apt[searchType].toLowerCase().includes(searchQuery.toLowerCase()) &&
-    //   apt.price >= priceRange[0] && apt.price <= priceRange[1] &&
-    //   (bedroomFilter === 0 || apt.rooms === bedroomFilter)
-    // )
-    // setApartments(filtered)
-    // setCurrentPage(1)
+  useEffect(() => {
+    console.log('fetching apartments')
+    fetchApartments(currentPage, itemsPerPage)
+      .then((response : ApartmentsResponse) => {
+        console.log(response)
+        setApartments(response.apartments);
+        setTotalPages(response.totalPages);
+        setCurrentPage(response.currentPage);
+        setTotalApartments(response.totalApartments);
+      });
 
-  }
+  }, [currentPage]);
 
-  const handleRefresh = () => {
-    setApartments(testApartments)
-    setSearchQuery('')
-    setPriceRange([0, 1000000])
-    setBedroomFilter(0)
+
+
+  const handleRefresh = async () => {
+    const response = await fetchApartments(currentPage, itemsPerPage)
+    setApartments(response.apartments)
     setCurrentPage(1)
   }
 
-  const handleAddApartment = (newApartment: Partial<Apartment>) => {
-    const apartmentWithId = {
-      ...newApartment,
-      _id: (apartments.length + 1).toString(),
-      images: ['/placeholder.svg'],
-      available: true,
-    } as Apartment
-    setApartments([...apartments, apartmentWithId])
-  }
-
-  // Pagination logic
-  const indexOfLastItem = currentPage * itemsPerPage
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage
-  const currentApartments = apartments.slice(indexOfFirstItem, indexOfLastItem)
-  const totalPages = Math.ceil(apartments.length / itemsPerPage)
-
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <header className="sticky top-0 z-40 w-full border-b bg-background">
+      <header className="sticky top-0 z-40 w-full border-b bg-white bg-opacity-90 backdrop-blur ">
         <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
           <div className="flex gap-3 md:gap-4 ml-6">
-          <Home className="h-6 w-6" />
-          <h1 className="text-xl font-bold">Sweet Home</h1>
+            <Home className="h-6 w-6" />
+            <h1 className="text-xl font-bold">Sweet Home {totalApartments}</h1>
           </div>
           <div className="flex flex-1 items-center justify-end space-x-4">
             <nav className="flex items-center space-x-1">
@@ -84,23 +72,13 @@ export default function ApartmentListing() {
       </header>
       <main className="container mx-auto py-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-          <SearchFilters
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-            searchType={searchType}
-            setSearchType={setSearchType}
-            priceRange={priceRange}
-            setPriceRange={setPriceRange}
-            bedroomFilter={bedroomFilter}
-            setBedroomFilter={setBedroomFilter}
-            onSearch={handleSearch}
-          />
+          <SearchFilters/>
         </div>
         <div className="flex justify-end mb-4">
-          <AddApartmentForm onAddApartment={handleAddApartment} />
+          <AddApartmentForm />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {currentApartments.map((apartment) => (
+          {apartments.map((apartment) => (
             <ApartmentCard
               key={apartment._id}
               apartment={apartment}
@@ -120,5 +98,4 @@ export default function ApartmentListing() {
       />
     </div>
   )
-  
 }

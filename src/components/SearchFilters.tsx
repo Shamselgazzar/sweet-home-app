@@ -1,3 +1,5 @@
+'use client'
+
 import { Search, Filter } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -5,30 +7,19 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { Label } from '@/components/ui/label'
 import { Slider } from '@/components/ui/slider'
+import { useState } from 'react'
 
-interface SearchFiltersProps {
-  searchQuery: string;
-  setSearchQuery: (query: string) => void;
-  searchType: string;
-  setSearchType: (type: string) => void;
-  priceRange: number[];
-  setPriceRange: (range: number[]) => void;
-  bedroomFilter: number;
-  setBedroomFilter: (bedrooms: number) => void;
-  onSearch: () => void;
-}
+export function SearchFilters() {
 
-export function SearchFilters({
-  searchQuery,
-  setSearchQuery,
-  searchType,
-  setSearchType,
-  priceRange,
-  setPriceRange,
-  bedroomFilter,
-  setBedroomFilter,
-  onSearch
-}: SearchFiltersProps) {
+  const [searchType, setSearchType] = useState('name')
+  const [searchQuery, setSearchQuery] = useState('')
+  const [priceRange, setPriceRange] = useState([0, 1000000])
+  const [bedroomFilter, setBedroomFilter] = useState(0)
+
+  const onSearch = () => {
+    console.log('searching')
+  }
+
   return (
     <div className="flex justify-between items-center mb-6">
       <div className="flex items-center space-x-2">
@@ -39,6 +30,7 @@ export function SearchFilters({
           onChange={(e) => setSearchQuery(e.target.value)}
           className="w-[300px]"
         />
+         <b>By</b>
         <Select value={searchType} onValueChange={setSearchType}>
           <SelectTrigger className="w-[120px]">
             <SelectValue placeholder="Search by" />
@@ -59,7 +51,7 @@ export function SearchFilters({
             <Filter className="mr-2 h-4 w-4" /> Filters
           </Button>
         </SheetTrigger>
-        <SheetContent>
+        <SheetContent className='bg-white'>
           <SheetHeader>
             <SheetTitle>Filters</SheetTitle>
             <SheetDescription>Adjust your search criteria</SheetDescription>

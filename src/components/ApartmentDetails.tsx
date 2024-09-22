@@ -2,7 +2,7 @@ import Image from 'next/image'
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Apartment } from '../types/apartment'
+import { Apartment } from '../types/Apartment'
 
 interface ApartmentDetailsProps {
   apartment: Apartment | null;
@@ -14,7 +14,7 @@ export function ApartmentDetails({ apartment, onClose }: ApartmentDetailsProps) 
 
   return (
     <Dialog open={!!apartment} onOpenChange={onClose}>
-      <DialogContent className="max-w-3xl">
+      <DialogContent className="max-w-3xl bg-white">
         <DialogHeader>
           <DialogTitle>{apartment.name}</DialogTitle>
         </DialogHeader>

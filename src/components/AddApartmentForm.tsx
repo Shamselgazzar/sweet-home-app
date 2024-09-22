@@ -2,18 +2,34 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Apartment } from '../types/apartment'
+import { Apartment } from '../types/Apartment'
+import { addApartment } from '../lib/api'
 
-interface AddApartmentFormProps {
-  onAddApartment: (apartment: Partial<Apartment>) => void;
-}
 
-export function AddApartmentForm({ onAddApartment }: AddApartmentFormProps) {
+
+export function AddApartmentForm() {
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
     const newApartment = Object.fromEntries(formData.entries())
-    onAddApartment(newApartment as Partial<Apartment>)
+    handleAddApartment(newApartment as Partial<Apartment>)
+  }
+
+  const handleAddApartment = (newApartment: Partial<Apartment>) => {
+    const apartment = {
+      ...newApartment,
+      images: ['/placeholder.svg'],
+      available: true,
+    } as Apartment
+
+    addApartment(apartment).then(() => {
+      // TODO: handle success by adding a notifaction to the user by a toast
+      console.log('Apartment added successfully')
+    }).catch((error) => {
+      // TODO: handle error by adding a notifaction to the user by a toast
+      console.error('Error adding apartment:', error)
+    })
   }
 
   return (
@@ -21,7 +37,7 @@ export function AddApartmentForm({ onAddApartment }: AddApartmentFormProps) {
       <DialogTrigger asChild>
         <Button>Add Apartment</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="bg-white sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Add New Apartment</DialogTitle>
           <DialogDescription>Enter the details of the new apartment listing.</DialogDescription>
@@ -45,8 +61,24 @@ export function AddApartmentForm({ onAddApartment }: AddApartmentFormProps) {
               <Input id="price" name="price" type="number" className="col-span-3" required />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="location" className="text-right">Location</Label>
+              <Input id="location" name="location" className="col-span-3" required />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="rooms" className="text-right">Rooms</Label>
+              <Input id="rooms" name="rooms" type="number" className="col-span-3" required />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="size" className="text-right">Size (square meters)</Label>
+              <Input id="size" name="size" type="number" className="col-span-3" required />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="description" className="text-right">Description</Label>
               <Input id="description" name="description" className="col-span-3" required />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="moreDetails" className="text-right">More Details</Label>
+              <Input id="moreDetails" name="moreDetails" className="col-span-3" />
             </div>
           </div>
           <DialogFooter>
@@ -55,5 +87,5 @@ export function AddApartmentForm({ onAddApartment }: AddApartmentFormProps) {
         </form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
