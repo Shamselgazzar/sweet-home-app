@@ -2,7 +2,7 @@ import Image from 'next/image'
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Apartment } from '../types/Apartment'
+import { Apartment } from '../types/apartment';
 
 interface ApartmentDetailsProps {
   apartment: Apartment | null;

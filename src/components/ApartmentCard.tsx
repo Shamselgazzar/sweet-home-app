@@ -1,14 +1,18 @@
 import Image from 'next/image'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Apartment } from '../types/Apartment'
+import { Apartment } from '../types/apartment';
+import { useRouter } from 'next/navigation';
+
 
 interface ApartmentCardProps {
   apartment: Apartment;
-  onViewDetails: (apartment: Apartment) => void;
 }
 
-export function ApartmentCard({ apartment, onViewDetails }: ApartmentCardProps) {
+export function ApartmentCard({ apartment }: ApartmentCardProps) {
+  const router = useRouter();
+  const navigateToDetails = () => router.push(`/apartments/${apartment._id}`);
+
   return (
     <Card className="flex flex-col justify-between">
       <CardHeader>
@@ -28,7 +32,7 @@ export function ApartmentCard({ apartment, onViewDetails }: ApartmentCardProps) 
         <p className="text-sm line-clamp-2">{apartment.description}</p>
       </CardContent>
       <CardFooter>
-        <Button onClick={() => onViewDetails(apartment)} className="w-full">View Details</Button>
+        <Button onClick={navigateToDetails} className="w-full">View Details</Button>
       </CardFooter>
     </Card>
   )
