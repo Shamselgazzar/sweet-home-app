@@ -7,8 +7,8 @@ export default function Navbar() {
   const [theme, setTheme] = useState('light')
 
   const handleRefresh = () => {
-    window.location.reload()
-  }
+    window.location.href = '/';
+  };
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-white bg-opacity-90 backdrop-blur shadow-md">

@@ -3,14 +3,14 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { fetchApartment } from '@/lib/api';
-import { Apartment } from '@/types/apartment';
+import { Apartment } from '@/types/Apartment';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Bed, Bath, Square, Calendar, MapPin, Phone, Mail, MessageCircle } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { BackToListingButton } from './backToListingButton';
+import { BackToListingButton } from '@/components/BackToListingButton';
 
 const ApartmentDetailsPage = () => {
   const [apartment, setApartment] = useState<Apartment | null>(null);

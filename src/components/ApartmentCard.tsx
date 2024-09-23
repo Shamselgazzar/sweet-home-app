@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Apartment } from '../types/apartment';
+import { Apartment } from '../types/Apartment';
 import { useRouter } from 'next/navigation';
 
 

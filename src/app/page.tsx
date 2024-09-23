@@ -1,7 +1,7 @@
 import { SearchBar } from '../components/SearchBar'
 import { ApartmentList } from '../components/ApartmentList'
 
-export default function Page() {
+export default function Home() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">

@@ -1,5 +1,6 @@
+'use server'
 import { apiBaseUrl } from '../../environment';
-import { Apartment } from '../types/apartment';
+import { Apartment } from '../types/Apartment';
 import { ApartmentsResponse } from '../types/ApartmentsResponse';
 
 export const fetchApartments = async (page: number = 1, limit: number = 6): Promise<ApartmentsResponse> => {
