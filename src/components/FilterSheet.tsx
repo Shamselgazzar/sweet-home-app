@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { ListFilter, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from '@/components/ui/sheet'
+import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { Label } from '@/components/ui/label'
 import { Slider } from '@/components/ui/slider'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
@@ -21,6 +21,7 @@ interface FilterState {
 const currentYear = new Date().getFullYear()
 
 export function FilterSheet() {
+  const [isOpen, setIsOpen] = useState(false)
   const [filters, setFilters] = useState<FilterState>({
     priceRange: [0, 1000000],
     bedrooms: '0',
@@ -68,13 +69,13 @@ export function FilterSheet() {
   }
 
   return (
-    <Sheet>
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
-        <Button variant="outline">
+        <Button variant="outline" onClick={() => setIsOpen(true)}>
           <ListFilter className="mr-2 h-4 w-4" /> Filters
         </Button>
       </SheetTrigger>
-      <SheetContent className="overflow-y-auto bg-white">
+      <SheetContent className="overflow-y-auto bg-slate-100">
         <SheetHeader>
           <SheetTitle>Filters</SheetTitle>
           <SheetDescription>Adjust your search criteria</SheetDescription>
@@ -173,11 +174,9 @@ export function FilterSheet() {
           </div>
         </div>
         <SheetFooter className="flex justify-between">
-          <SheetClose asChild>
-            <Button variant="outline" onClick={handleResetFilters}>
-              <X className="mr-2 h-4 w-4" /> Reset
-            </Button>
-          </SheetClose>
+          <Button variant="outline" onClick={handleResetFilters}>
+            <X className="mr-2 h-4 w-4" /> Reset
+          </Button>
           <SheetClose asChild>
             <Button onClick={handleApplyFilters}>Apply Filters</Button>
           </SheetClose>

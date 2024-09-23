@@ -66,6 +66,7 @@ const ApartmentDetailsPage = () => {
                   src={activeImage || apartment.images[0]}
                   alt={apartment.name}
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="object-cover"
                 />
               </div>
@@ -82,6 +83,7 @@ const ApartmentDetailsPage = () => {
                       src={image}
                       alt={`${apartment.name} - Image ${index + 1}`}
                       fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       className="object-cover"
                     />
                   </div>

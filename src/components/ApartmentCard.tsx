@@ -24,6 +24,7 @@ export function ApartmentCard({ apartment }: ApartmentCardProps) {
           alt={apartment.name}
           width={300}
           height={200}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="w-full h-48 object-cover mb-4 rounded-md"
         />
         <p className="text-sm text-muted-foreground mb-2">Unit: {apartment.unitNumber}</p>
