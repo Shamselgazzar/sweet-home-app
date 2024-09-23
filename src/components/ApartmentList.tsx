@@ -8,6 +8,7 @@ import { Apartment } from '../types/apartment'
 import { ApartmentCard } from './ApartmentCard'
 import { Skeleton } from '@/components/ui/skeleton'
 import { AddApartmentForm } from './AddApartmentForm'
+import { FilterSheet } from './FilterSheet'
 
 export function ApartmentList() {
   const [apartments, setApartments] = useState<Apartment[]>([])
@@ -44,8 +45,17 @@ export function ApartmentList() {
   return (
     <main>
       <div className="flex items-center justify-between mb-4 px-4 sm:px-6 md:px-8 pt-2 ">
+
         <p><b>Apartments: </b> {isLoading ? '...' : `${totalApartments} results`}</p>
-        <AddApartmentForm />
+
+        <div className="flex items-center justify-end mb-4 px-4 sm:px-6 md:px-8">
+          <div className="mx-2">
+            <AddApartmentForm />
+          </div>
+          <div className="mx-2">
+            <FilterSheet />
+          </div>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
