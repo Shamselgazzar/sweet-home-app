@@ -6,16 +6,15 @@ import { fetchApartment } from '@/lib/api';
 import { Apartment } from '@/types/apartment';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { ChevronLeft, Bed, Bath, Square, Calendar, MapPin, Phone, Mail, MessageCircle } from 'lucide-react';
+import { Bed, Bath, Square, Calendar, MapPin, Phone, Mail, MessageCircle } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { BackToListingButton } from './backToListingButton';
 
 const ApartmentDetailsPage = () => {
   const [apartment, setApartment] = useState<Apartment | null>(null);
   const [activeImage, setActiveImage] = useState<string | null>(null);
-  const router = useRouter();
   const params = useParams();
   const id = params.id;
 
@@ -30,6 +29,9 @@ const ApartmentDetailsPage = () => {
   if (!apartment) {
     return (
       <div className="container mx-auto p-6 space-y-4">
+        <div className="flex justify-end">
+          <BackToListingButton />
+        </div>
         <Skeleton className="h-12 w-3/4 mx-auto" />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <Skeleton className="h-96 w-full" />
@@ -45,13 +47,9 @@ const ApartmentDetailsPage = () => {
 
   return (
     <div className="container mx-auto p-6">
-      <Button
-        variant="outline"
-        onClick={() => router.push('/')}
-        className="mb-4 bg-primary text-secondary"
-      >
-        <ChevronLeft className="mr-2 h-4 w-4" /> Back to Listings
-      </Button>
+        <div className="flex justify-end">
+          <BackToListingButton />
+        </div>
 
       <Card className="overflow-hidden">
         <CardHeader className="pb-0">

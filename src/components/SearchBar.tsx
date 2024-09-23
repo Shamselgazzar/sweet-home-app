@@ -1,6 +1,6 @@
 'use client'
 
-import { Search, Filter } from 'lucide-react'
+import { Search, ListFilter } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
@@ -9,8 +9,8 @@ import { Label } from '@/components/ui/label'
 import { Slider } from '@/components/ui/slider'
 import { useState } from 'react'
 
-export function SearchFilters() {
-
+export function SearchBar() {
+  
   const [searchType, setSearchType] = useState('name')
   const [searchQuery, setSearchQuery] = useState('')
   const [priceRange, setPriceRange] = useState([0, 1000000])
@@ -48,7 +48,7 @@ export function SearchFilters() {
       <Sheet>
         <SheetTrigger asChild>
           <Button variant="outline">
-            <Filter className="mr-2 h-4 w-4" /> Filters
+            <ListFilter className="mr-2 h-4 w-4" /> Filters
           </Button>
         </SheetTrigger>
         <SheetContent className='bg-white'>

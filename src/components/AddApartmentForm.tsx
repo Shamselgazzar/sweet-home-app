@@ -1,13 +1,20 @@
+'use client'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Apartment } from '../types/Apartment'
 import { addApartment } from '../lib/api'
+import { Apartment } from '../types/apartment'
+import { useToast } from '../hooks/use-toast'
+import { useState } from 'react'
+import { PlusCircle } from 'lucide-react'
 
 
 
 export function AddApartmentForm() {
+
+  const [open, setOpen] = useState(false)
+  const { toast } = useToast()
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -24,18 +31,34 @@ export function AddApartmentForm() {
     } as Apartment
 
     addApartment(apartment).then(() => {
-      // TODO: handle success by adding a notifaction to the user by a toast
+      setOpen(false)
+      toast({
+        title: "Success",
+        description: "Apartment added successfully",
+        duration: 3000,
+      })
       console.log('Apartment added successfully')
     }).catch((error) => {
-      // TODO: handle error by adding a notifaction to the user by a toast
+      toast({
+        title: "Error",
+        description: "Failed to add apartment. Please try again.",
+        variant: "destructive",
+        duration: 3000,
+      })
       console.error('Error adding apartment:', error)
     })
+   
   }
 
+  
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>Add Apartment</Button>
+        <Button size="sm" className="h-7 gap-1">
+          <PlusCircle className="h-3.5 w-3.5" />
+            Add Apartment
+        </Button>
+        {/* <Button>Add Apartment</Button> */}
       </DialogTrigger>
       <DialogContent className="bg-white sm:max-w-[425px]">
         <DialogHeader>
