@@ -26,7 +26,7 @@ export function AddApartmentForm() {
   const handleAddApartment = (newApartment: Partial<Apartment>) => {
     const apartment = {
       ...newApartment,
-      images: ['/placeholder.jpg'],
+      images: ['/placeholder.png'],
       available: true,
     } as Apartment
 
