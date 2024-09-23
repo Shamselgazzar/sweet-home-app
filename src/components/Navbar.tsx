@@ -2,10 +2,11 @@
 import { useState } from "react"
 import { Button } from "./ui/button"
 import { Moon, RefreshCcw, Sun } from "lucide-react"
+import { useRouter } from "next/navigation";
 
 export default function Navbar() {
   const [theme, setTheme] = useState('light')
-
+  const router = useRouter();
   const handleRefresh = () => {
     window.location.href = '/';
   };
@@ -16,7 +17,13 @@ export default function Navbar() {
         <div className="flex gap-3 md:gap-4 ml-6">
           <link rel="icon" href="/favicon.png" sizes="any" />
           {/* todo add logo here */}
-          <h1 className="text-xl font-bold">Sweet Home </h1>
+          <Button
+            variant="ghost"
+            onClick={() => router.push('/')}
+            className="text-xl font-bold hover:bg-transparent"
+          >
+            Sweet Home 
+          </Button>
         </div>
         <div className="flex flex-1 items-center justify-end space-x-4">
           <nav className="flex items-center space-x-1">
